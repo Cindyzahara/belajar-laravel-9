@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Activity;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Student;
 use App\Models\Teacher;
 
@@ -13,8 +14,12 @@ class StudentController extends Controller
 {
     public function index(){
         // $students = Student::all();
+
+        $user = Auth::user();
+        $id =  Auth::id();
+
         $students = Student::paginate(2);
-        return view ('index',['students' => $students]);
+        return view ('index',['students' => $students, 'user' => $user, 'id' =>$id]);
     }
     public function filter(){
         $students = Student::where('score', '>=', 100)
@@ -51,7 +56,7 @@ class StudentController extends Controller
             'teacher_id' => 1
         ]);
 
-        return redirect::route('index');
+        return Redirect::route('index');
     }
 
     public function edit(Student $student)
@@ -66,6 +71,12 @@ class StudentController extends Controller
             'score' => $request->score
         ]);
 
-        return redirect::route('index');
+        return Redirect::route('index');
+    }
+
+    public function delete(Student $student){
+
+        $student->delete();
+        return Redirect::route('index');
     }
 }

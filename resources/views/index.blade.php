@@ -7,6 +7,20 @@
     <title>Document</title>
 </head>
 <body>
+
+    @if (Auth::check())
+        <form action="{{ route('logout') }}" method="post">
+            @csrf
+            <button type="submit">Logout</button>
+        </form>
+        <p>Name : {{ $user->name }}</p>
+        <p>ID : {{ $id }}</p>
+        <p>Email : {{ $user->email }}</p>
+    @else 
+        <a href="{{ route('login')}}">Login</a>
+        <a href="{{ route('register')}}">Register</a>
+    @endif
+
     <table border="1px">
         <tr>
             <th>ID</th>
@@ -21,7 +35,13 @@
                 <td>{{ $student->score }}</td>
                 <td>
                     <form action="{{ route('edit', $student) }}" method="get">
+                        @csrf
                         <button type="submit">Edit</button>
+                    </form>
+                    <form action="{{ route('delete', $student) }}" method="post">
+                        @method('delete')
+                        @csrf
+                        <button type="submit">Delete</button>
                     </form>
                 </td>
             </tr>
