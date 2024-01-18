@@ -16,6 +16,7 @@
         <p>Name : {{ $user->name }}</p>
         <p>ID : {{ $id }}</p>
         <p>Email : {{ $user->email }}</p>
+        <p>Role : {{ $user->role }}</p>
     @else 
         <a href="{{ route('login')}}">Login</a>
         <a href="{{ route('register')}}">Register</a>

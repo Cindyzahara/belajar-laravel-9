@@ -7,9 +7,19 @@
     <title>Update Password</title>
 </head>
 <body>
-    @method('patch')
-    @csrf
-    <form action="" method="post">
+    @if($errors->any())
+        @foreach ($errors->all() as $error)
+            <p>{{ $error }}</p>
+        @endforeach
+    @endif
+
+    @if(Session::has('message'))
+        <p>{{ Session::get('message') }}</p>
+    @endif
+  
+    <form action="{{ route('store_password')}}" method="post">
+        @method('patch')
+        @csrf
         <input type="password" name="new_password">
         <input type="password" name="new_password_confirmation">
         <button type="sumbit">Change</button>

@@ -35,15 +35,17 @@ class HomeController extends Controller
         return view('update_password', compact('user'));
     }
 
-    public function store_pasword(Request $request){
+    public function store_password(Request $request){
 
-        $request->valiidate([
+        $request->validate([
             'new_password' => 'required|min:8|confirmed'
         ]);
 
-        Auth::user()->update([
+        Auth::user()->save([
             'new_password' => Hash::make($request->new_password)
         ]);
+
+        $request->session()->flash('message', 'Succesfully changed password');
 
         return Redirect::back();
     }
